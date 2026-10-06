@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - YemoCloud</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #f5f3ff;
+        }
+        .carte {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            margin-top: 0;
+            color: #7c3aed;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+            color: #000;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #f3f4f6;
+        }
+        #erreur {
+            color: red;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="carte">
+        <h2>Connexion</h2>
+        <button id="btn-google">Continuer avec Google</button>
+        <p id="erreur"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider }
+            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDWhw9oAtnzoWUIsDOZO1FR4Dm92KbhLYI",
+            authDomain: "boing--netgo.firebaseapp.com",
+            projectId: "boing--netgo",
+            storageBucket: "boing--netgo.firebasestorage.app",
+            messagingSenderId: "361557650826",
+            appId: "1:361557650826:web:00ae6d8fbe5a0c1f9a6c73"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const erreur = document.getElementById("erreur");
+
+        document.getElementById("btn-google").onclick = async () => {
+            try {
+                const resultat = await signInWithPopup(auth, new GoogleAuthProvider());
+                const token = await resultat.user.getIdToken();
+                const reponse = await fetch("/session", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token })
+                });
+                if (reponse.ok) window.location.href = "/tableau-de-bord";
+                else erreur.textContent = "Connexion refusée par le serveur.";
+            } catch (e) {
+                erreur.textContent = e.message;
+            }
+        };
+    </script>
+</body>
+</html>

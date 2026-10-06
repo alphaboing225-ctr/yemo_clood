@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - YemoCloud</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background: #f5f3ff;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .logo {
+            color: #7c3aed;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .profil {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #7c3aed;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .nom {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 52px;
+            right: 0;
+            width: 300px;
+            max-width: 90vw;
+            box-sizing: border-box;
+            background: white;
+            padding: 14px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 13px;
+            cursor: default;
+            z-index: 10;
+        }
+        .menu.ouvert {
+            display: block;
+        }
+        .etiquette {
+            font-size: 11px;
+            font-weight: bold;
+            color: #6b21a8;
+            margin-bottom: 4px;
+        }
+        .ligne-cle {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .ligne-cle input {
+            flex: 1;
+            min-width: 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            background: #f9f9f9;
+        }
+        .ligne-cle button {
+            padding: 0 12px;
+            border: none;
+            border-radius: 6px;
+            background: #7c3aed;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .ligne-cle button:hover {
+            background: #6d28d9;
+        }
+        .indisponible {
+            margin-bottom: 12px;
+            color: #b91c1c;
+            font-size: 12px;
+        }
+        .titre-projet {
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            word-break: break-word;
+        }
+        .email {
+            color: #333;
+            word-break: break-all;
+        }
+        .menu a {
+            display: block;
+            margin-top: 10px;
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+        .bouton {
+            display: inline-block;
+            margin: auto;
+            background: #7c3aed;
+            color: white;
+            text-decoration: none;
+            padding: 18px 40px;
+            font-size: 20px;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        .bouton:hover {
+            background: #6d28d9;
+        }
+        .zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .plus {
+            width: 90px;
+            height: 90px;
+            border: none;
+            border-radius: 50%;
+            background: #7c3aed;
+            color: white;
+            font-size: 52px;
+            line-height: 1;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+            transition: background 0.2s;
+        }
+        .plus:hover {
+            background: #6d28d9;
+        }
+        .legende {
+            margin: 14px 0 0;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        .apercu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 280px;
+        }
+        .apercu.visible {
+            display: flex;
+        }
+        .vignette {
+            display: none;
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .vignette.visible {
+            display: block;
+        }
+        .info-fichier {
+            font-size: 13px;
+            word-break: break-all;
+        }
+        .taille {
+            color: #666;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        .actions-fichier {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn-retirer {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .btn-retirer:hover {
+            background: #f3f4f6;
+        }
+        .btn-televerser {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: #7c3aed;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .btn-televerser:hover {
+            background: #6d28d9;
+        }
+        .btn-televerser:disabled,
+        .btn-retirer:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+        .statut {
+            margin-top: 10px;
+            font-size: 13px;
+            min-height: 16px;
+        }
+        .statut.ok {
+            color: #15803d;
+        }
+        .statut.erreur {
+            color: #b91c1c;
+        }
+
+        /* Galerie en grille */
+        .galerie {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 40px;
+        }
+        .titre-galerie {
+            margin: 0 0 14px;
+            font-size: 16px;
+            color: #333;
+        }
+        .grille {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
+        }
+        .carte {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .carte:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        }
+        .carte img,
+        .carte video {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            background: #ede9fe;
+        }
+        .carte-nom {
+            padding: 8px 10px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .vide {
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <span class="logo">YemoCloud</span>
+        <div class="profil" id="profil">
+            <div class="avatar" id="avatar" data-teinte="{{ teinte }}">{{ initiale }}</div>
+            <span class="nom">{{ nom }}</span>
+            <div class="menu" id="menu">
+                {% if projet %}
+                    {% if cle %}
+                    <div class="etiquette">Clé du projet</div>
+                    <div class="ligne-cle">
+                        <input type="text" id="cle" readonly value="{{ cle }}">
+                        <button id="btn-copier">Copier</button>
+                    </div>
+                    {% else %}
+                    <div class="indisponible">
+                        Clé indisponible pour ce projet. Supprime-le dans Firestore et recrée-le.
+                    </div>
+                    {% endif %}
+                    <div class="etiquette">Nom du projet</div>
+                    <div class="titre-projet">{{ projet.nom }}</div>
+                {% endif %}
+                <div class="email">{{ email }}</div>
+                <a href="/deconnexion">Se déconnecter</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% if projet %}
+        <div class="zone">
+            <input type="file" id="fichier" accept="image/*,video/*" hidden>
+            <button class="plus" id="btn-plus" aria-label="Choisir un fichier">+</button>
+            <p class="legende">Choisir un fichier</p>
+
+            <div class="apercu" id="apercu">
+                <img class="vignette" id="vignette" alt="Aperçu du fichier">
+                <div class="info-fichier" id="nom-fichier"></div>
+                <div class="taille" id="taille-fichier"></div>
+                <div class="actions-fichier">
+                    <button class="btn-retirer" id="btn-retirer">Retirer</button>
+                    <button class="btn-televerser" id="btn-televerser">Téléverser</button>
+                </div>
+                <div class="statut" id="statut"></div>
+            </div>
+        </div>
+
+        <section class="galerie">
+            <h2 class="titre-galerie">Mes fichiers</h2>
+            <div class="grille" id="grille">
+                {% for f in fichiers %}
+                <a class="carte" href="{{ f.url }}" target="_blank" rel="noopener">
+                    {% if f.type == "video" %}
+                    <video src="{{ f.url }}" muted preload="metadata"></video>
+                    {% else %}
+                    <img src="{{ f.url }}" alt="{{ f.nom }}" loading="lazy">
+                    {% endif %}
+                    <span class="carte-nom">{{ f.nom }}</span>
+                </a>
+                {% endfor %}
+            </div>
+            <p class="vide" id="vide" {% if fichiers %}hidden{% endif %}>Aucun fichier pour l'instant.</p>
+        </section>
+        {% else %}
+        <a class="bouton" href="/nouveau-projet">Créer un projet</a>
+        {% endif %}
+    </main>
+
+    <script>
+        const avatar = document.getElementById("avatar");
+        avatar.style.background = "hsl(" + avatar.dataset.teinte + ", 60%, 45%)";
+
+        const profil = document.getElementById("profil");
+        const menu = document.getElementById("menu");
+
+        profil.addEventListener("click", function (e) {
+            if (menu.contains(e.target)) return;
+            menu.classList.toggle("ouvert");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!profil.contains(e.target)) menu.classList.remove("ouvert");
+        });
+
+        const champCle = document.getElementById("cle");
+        const btnCopier = document.getElementById("btn-copier");
+
+        if (champCle && btnCopier) {
+            champCle.addEventListener("click", function () {
+                champCle.select();
+            });
+
+            btnCopier.addEventListener("click", async function () {
+                try {
+                    await navigator.clipboard.writeText(champCle.value);
+                } catch (e) {
+                    champCle.select();
+                    document.execCommand("copy");
+                }
+                btnCopier.textContent = "Copié !";
+                setTimeout(function () { btnCopier.textContent = "Copier"; }, 1500);
+            });
+        }
+
+        // Choix et envoi d'un fichier
+        const champFichier = document.getElementById("fichier");
+
+        if (champFichier) {
+            const btnPlus = document.getElementById("btn-plus");
+            const apercu = document.getElementById("apercu");
+            const vignette = document.getElementById("vignette");
+            const nomFichier = document.getElementById("nom-fichier");
+            const tailleFichier = document.getElementById("taille-fichier");
+            const btnRetirer = document.getElementById("btn-retirer");
+            const btnTeleverser = document.getElementById("btn-televerser");
+            const statut = document.getElementById("statut");
+            const grille = document.getElementById("grille");
+            const vide = document.getElementById("vide");
+            let urlApercu = null;
+
+            function libererApercu() {
+                if (urlApercu) {
+                    URL.revokeObjectURL(urlApercu);
+                    urlApercu = null;
+                }
+            }
+
+            function formaterTaille(octets) {
+                if (octets < 1024 * 1024) return (octets / 1024).toFixed(1) + " Ko";
+                return (octets / (1024 * 1024)).toFixed(1) + " Mo";
+            }
+
+            function afficherStatut(texte, classe) {
+                statut.textContent = texte;
+                statut.className = "statut" + (classe ? " " + classe : "");
+            }
+
+            function reinitialiser() {
+                libererApercu();
+                champFichier.value = "";
+                vignette.classList.remove("visible");
+                vignette.removeAttribute("src");
+                apercu.classList.remove("visible");
+                afficherStatut("", "");
+                btnTeleverser.disabled = false;
+                btnRetirer.disabled = false;
+                btnRetirer.textContent = "Retirer";
+            }
+
+            // Ajoute le fichier envoyé en première place de la grille
+            function ajouterALaGrille(info) {
+                const carte = document.createElement("a");
+                carte.className = "carte";
+                carte.href = info.url;
+                carte.target = "_blank";
+                carte.rel = "noopener";
+
+                let media;
+                if (info.type === "video") {
+                    media = document.createElement("video");
+                    media.muted = true;
+                    media.preload = "metadata";
+                    media.src = info.url;
+                } else {
+                    media = document.createElement("img");
+                    media.alt = info.nom;
+                    media.src = info.url;
+                }
+                carte.appendChild(media);
+
+                const legende = document.createElement("span");
+                legende.className = "carte-nom";
+                legende.textContent = info.nom;
+                carte.appendChild(legende);
+
+                grille.prepend(carte);
+                vide.hidden = true;
+            }
+
+            btnPlus.addEventListener("click", function () {
+                champFichier.click();
+            });
+
+            champFichier.addEventListener("change", function () {
+                const fichier = champFichier.files[0];
+                if (!fichier) return;
+
+                libererApercu();
+                nomFichier.textContent = fichier.name;
+                tailleFichier.textContent = formaterTaille(fichier.size);
+                afficherStatut("", "");
+                btnTeleverser.disabled = false;
+                btnRetirer.disabled = false;
+                btnRetirer.textContent = "Retirer";
+
+                if (fichier.type.startsWith("image/")) {
+                    urlApercu = URL.createObjectURL(fichier);
+                    vignette.src = urlApercu;
+                    vignette.classList.add("visible");
+                } else {
+                    vignette.classList.remove("visible");
+                    vignette.removeAttribute("src");
+                }
+
+                apercu.classList.add("visible");
+            });
+
+            btnRetirer.addEventListener("click", reinitialiser);
+
+            btnTeleverser.addEventListener("click", async function () {
+                const fichier = champFichier.files[0];
+                if (!fichier) return;
+
+                btnTeleverser.disabled = true;
+                btnRetirer.disabled = true;
+                afficherStatut("Envoi en cours…", "");
+
+                const donnees = new FormData();
+                donnees.append("fichier", fichier);
+
+                try {
+                    const reponse = await fetch("/api/televerser", {
+                        method: "POST",
+                        body: donnees
+                    });
+                    const resultat = await reponse.json();
+                    if (!reponse.ok) {
+                        afficherStatut(resultat.erreur || "Erreur.", "erreur");
+                        btnTeleverser.disabled = false;
+                        btnRetirer.disabled = false;
+                        return;
+                    }
+                    afficherStatut("Fichier envoyé ✓", "ok");
+                    ajouterALaGrille(resultat);
+                    btnRetirer.textContent = "Nouveau fichier";
+                    btnRetirer.disabled = false;
+                } catch (e) {
+                    afficherStatut("Impossible de contacter le serveur.", "erreur");
+                    btnTeleverser.disabled = false;
+                    btnRetirer.disabled = false;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

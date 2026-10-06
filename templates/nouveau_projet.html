@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau projet - YemoCloud</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #f5f3ff;
+        }
+        .carte {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            width: 380px;
+            max-width: 90%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+            color: #7c3aed;
+            text-align: center;
+        }
+        label {
+            font-size: 13px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 11px;
+            margin: 6px 0 14px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #7c3aed;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #6d28d9;
+        }
+        button:disabled {
+            background: #b9a1f0;
+            cursor: default;
+        }
+        .retour {
+            display: block;
+            margin-top: 16px;
+            text-align: center;
+            color: #7c3aed;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        #erreur {
+            color: red;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="carte">
+        <h2>Nouveau projet</h2>
+
+        <label for="nom-projet">Nom du projet</label>
+        <input type="text" id="nom-projet" placeholder="Ex : Yemo_Cloud" maxlength="50">
+        <button id="btn-creer">Créer le projet</button>
+        <p id="erreur"></p>
+
+        <a class="retour" href="/tableau-de-bord">← Retour au tableau de bord</a>
+    </div>
+
+    <script>
+        const erreur = document.getElementById("erreur");
+        const btnCreer = document.getElementById("btn-creer");
+
+        btnCreer.addEventListener("click", async function () {
+            erreur.textContent = "";
+            const nom = document.getElementById("nom-projet").value.trim();
+            if (!nom) {
+                erreur.textContent = "Entre un nom de projet.";
+                return;
+            }
+            btnCreer.disabled = true;
+            try {
+                const reponse = await fetch("/api/creer-projet", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nom: nom })
+                });
+                const donnees = await reponse.json();
+                if (!reponse.ok) {
+                    erreur.textContent = donnees.erreur || "Erreur.";
+                    btnCreer.disabled = false;
+                    return;
+                }
+                window.location.href = "/tableau-de-bord";
+            } catch (e) {
+                erreur.textContent = "Impossible de contacter le serveur.";
+                btnCreer.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
