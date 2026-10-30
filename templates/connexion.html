@@ -41,8 +41,6 @@
     box-shadow: 0 1.5rem 3rem -1.5rem rgba(21, 26, 74, .35);
     text-align: center;
   }
-
-  /* Mot animé */
   .logo {
     display: flex;
     justify-content: center;
@@ -60,20 +58,16 @@
   .logo span {
     display: inline-block;
     transform-origin: 50% 100%;
-    animation: rebond 1s cubic-bezier(.3, 0, .4, 1) calc(var(--i) * 80ms) 2 both;
-  }
-  .logo:hover span {
-    animation: rebond 1s cubic-bezier(.3, 0, .4, 1) calc(var(--i) * 80ms) 1 both;
+    animation: rebond 2.2s cubic-bezier(.3, 0, .4, 1) calc(var(--i) * 90ms) infinite;
   }
   @keyframes rebond {
     0%   { transform: translateY(-1.1rem) scale(1, 1); }
-    45%  { transform: translateY(0) scale(1, 1); animation-timing-function: ease-out; }
-    50%  { transform: translateY(0) scale(1.2, .75); }
-    58%  { transform: translateY(-.35rem) scale(.95, 1.06); }
-    66%  { transform: translateY(0) scale(1, 1); }
+    20%  { transform: translateY(0) scale(1, 1); animation-timing-function: ease-out; }
+    23%  { transform: translateY(0) scale(1.2, .75); }
+    28%  { transform: translateY(-.35rem) scale(.95, 1.06); }
+    33%  { transform: translateY(0) scale(1, 1); }
     100% { transform: translateY(0) scale(1, 1); }
   }
-
   h1 {
     font-family: "Bricolage Grotesque", system-ui, sans-serif;
     font-weight: 800;
@@ -127,7 +121,7 @@
     color: #7b80a8;
   }
   @media (prefers-reduced-motion: reduce) {
-    .logo span, .logo:hover span { animation: none; }
+    .logo span { animation: none; }
   }
 </style>
 </head>
@@ -138,4 +132,71 @@
     </div>
 
     <h1>Content de vous revoir</h1>
-    <p class="sous-titre">C
+    <p class="sous-titre">Connectez-vous pour accéder à votre tableau de bord.</p>
+
+    <button id="btn-google" class="btn-google" type="button">
+      <span class="pastille" aria-hidden="true">
+        <svg viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/>
+          <path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/>
+          <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+        </svg>
+      </span>
+      Continuer avec Google
+    </button>
+
+    <p id="erreur" role="alert" aria-live="polite"></p>
+    <p class="note">Aucun mot de passe à retenir.</p>
+  </main>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider }
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDWhw9oAtnzoWUIsDOZO1FR4Dm92KbhLYI",
+        authDomain: "boing--netgo.firebaseapp.com",
+        projectId: "boing--netgo",
+        storageBucket: "boing--netgo.firebasestorage.app",
+        messagingSenderId: "361557650826",
+        appId: "1:361557650826:web:00ae6d8fbe5a0c1f9a6c73"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const erreur = document.getElementById("erreur");
+    const bouton = document.getElementById("btn-google");
+
+    const messages = {
+        "auth/popup-closed-by-user": "La fenêtre a été fermée avant la fin de la connexion. Réessayez.",
+        "auth/cancelled-popup-request": "Une autre fenêtre de connexion est déjà ouverte.",
+        "auth/popup-blocked": "Votre navigateur a bloqué la fenêtre. Autorisez les popups pour ce site.",
+        "auth/network-request-failed": "Pas de connexion internet. Vérifiez votre réseau et réessayez."
+    };
+
+    bouton.onclick = async () => {
+        erreur.textContent = "";
+        bouton.disabled = true;
+        try {
+            const resultat = await signInWithPopup(auth, new GoogleAuthProvider());
+            const token = await resultat.user.getIdToken();
+            const reponse = await fetch("/session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token })
+            });
+            if (reponse.ok) {
+                window.location.href = "/tableau-de-bord";
+                return;
+            }
+            erreur.textContent = "Connexion refusée par le serveur.";
+        } catch (e) {
+            erreur.textContent = messages[e.code] || "La connexion a échoué. Réessayez dans un instant.";
+        }
+        bouton.disabled = false;
+    };
+</script>
+</body>
+</html>
