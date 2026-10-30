@@ -1,158 +1,141 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - YemoCloud</title>
-    <link rel="icon" href="/static/1793369079861.jpg" type="image/jpeg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --nuit: #140a2e;
-            --violet: #6a2cf5;
-            --violet-clair: #a98bff;
-            --soleil: #ffc83d;
-            --menthe: #3ddc97;
-            --texte: #1b1238;
-            --doux: #5f5680;
-            --trait: #ddd3fb;
-        }
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 22px;
-            font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-            color: var(--texte);
-            -webkit-font-smoothing: antialiased;
-            background:
-                radial-gradient(60% 55% at 85% 0%, rgba(106,44,245,.65), transparent 70%),
-                radial-gradient(50% 45% at 0% 100%, rgba(255,200,61,.18), transparent 70%),
-                var(--nuit);
-        }
-        .page { width: 100%; max-width: 400px; }
-        .carte {
-            background: #fff;
-            border-radius: 28px;
-            padding: 34px 28px 28px;
-            text-align: center;
-            box-shadow: 0 40px 80px -30px rgba(0,0,0,.7);
-        }
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
-            font-weight: 800;
-            font-size: 22px;
-            letter-spacing: -.5px;
-            color: var(--violet);
-            text-decoration: none;
-            margin-bottom: 26px;
-        }
-        .logo-marque {
-            width: 36px; height: 36px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--violet-clair), var(--violet));
-            display: grid; place-items: center;
-        }
-        .logo-marque svg { width: 21px; height: 21px; }
-        .pastille {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 13px;
-            border-radius: 999px;
-            background: #fff6dc;
-            color: #6b4e00;
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 14px;
-        }
-        .pastille i { width: 8px; height: 8px; border-radius: 50%; background: var(--soleil); }
-        h1 {
-            font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
-            font-size: 30px;
-            line-height: 1.1;
-            letter-spacing: -1px;
-            font-weight: 800;
-            margin: 0 0 10px;
-        }
-        .texte { color: var(--doux); font-size: 16px; margin: 0 0 26px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connexion · Yemoclood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fond: #e9ecff;
+    --encre: #151a4a;
+    --texte: #4a4f7a;
+    --accent: #3a3aff;
+    --accent-fonce: #2626d9;
+    --balle: #ff6b57;
+    --carte: #ffffff;
+    --bord: #d5d9f5;
+    --erreur: #c62847;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "DM Sans", system-ui, sans-serif;
+    color: var(--texte);
+    background:
+      radial-gradient(60rem 40rem at 10% -10%, #d3d8ff 0%, transparent 60%),
+      var(--fond);
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+  }
+  main {
+    width: 100%;
+    max-width: 24rem;
+    background: var(--carte);
+    border: 1px solid var(--bord);
+    border-radius: 1.75rem;
+    padding: 2.5rem 2rem 2rem;
+    box-shadow: 0 1.5rem 3rem -1.5rem rgba(21, 26, 74, .35);
+    text-align: center;
+  }
 
-        #btn-google {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 15px 18px;
-            border: 1.5px solid var(--trait);
-            border-radius: 14px;
-            background: #fff;
-            color: var(--texte);
-            font-family: inherit;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform .15s, box-shadow .15s, border-color .15s;
-        }
-        #btn-google:hover {
-            border-color: var(--violet);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 26px -12px rgba(106,44,245,.55);
-        }
-        #btn-google:active { transform: translateY(0); }
-        #btn-google:disabled { opacity: .7; cursor: wait; transform: none; box-shadow: none; }
-        #btn-google svg { width: 22px; height: 22px; flex: none; }
-        #btn-google:focus-visible, .retour:focus-visible { outline: 3px solid var(--soleil); outline-offset: 3px; }
+  /* Mot animé */
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 4.5rem;
+    margin-bottom: 1.25rem;
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 2.6rem;
+    letter-spacing: -.03em;
+    line-height: 1;
+    color: var(--balle);
+    cursor: default;
+  }
+  .logo span {
+    display: inline-block;
+    transform-origin: 50% 100%;
+    animation: rebond 1s cubic-bezier(.3, 0, .4, 1) calc(var(--i) * 80ms) 2 both;
+  }
+  .logo:hover span {
+    animation: rebond 1s cubic-bezier(.3, 0, .4, 1) calc(var(--i) * 80ms) 1 both;
+  }
+  @keyframes rebond {
+    0%   { transform: translateY(-1.1rem) scale(1, 1); }
+    45%  { transform: translateY(0) scale(1, 1); animation-timing-function: ease-out; }
+    50%  { transform: translateY(0) scale(1.2, .75); }
+    58%  { transform: translateY(-.35rem) scale(.95, 1.06); }
+    66%  { transform: translateY(0) scale(1, 1); }
+    100% { transform: translateY(0) scale(1, 1); }
+  }
 
-        #erreur {
-            min-height: 20px;
-            margin: 14px 0 0;
-            color: #c4162a;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .rassure {
-            margin: 22px 0 0;
-            padding-top: 18px;
-            border-top: 1.5px solid var(--trait);
-            font-size: 14px;
-            color: var(--doux);
-        }
-        .retour {
-            display: inline-block;
-            margin-top: 22px;
-            color: #d9d0f7;
-            font-size: 15px;
-            font-weight: 500;
-            text-decoration: none;
-        }
-        .retour:hover { color: #fff; text-decoration: underline; }
-        .bas { text-align: center; }
-
-        @media (prefers-reduced-motion: reduce) {
-            * { transition: none !important; }
-        }
-    </style>
+  h1 {
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    letter-spacing: -.03em;
+    line-height: 1.1;
+    color: var(--encre);
+  }
+  .sous-titre {
+    margin: .6rem auto 2rem;
+    max-width: 18rem;
+    line-height: 1.5;
+  }
+  .btn-google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    padding: .9rem 1rem;
+    font: 500 1rem "DM Sans", system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .15s, transform .15s;
+  }
+  .btn-google:hover { background: var(--accent-fonce); }
+  .btn-google:active { transform: scale(.98); }
+  .btn-google:focus-visible { outline: 3px solid var(--balle); outline-offset: 3px; }
+  .btn-google:disabled { opacity: .7; cursor: progress; }
+  .pastille {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .pastille svg { width: 1.05rem; height: 1.05rem; }
+  #erreur {
+    min-height: 1.25rem;
+    margin-top: 1rem;
+    font-size: .9rem;
+    color: var(--erreur);
+  }
+  .note {
+    margin-top: 1.25rem;
+    font-size: .85rem;
+    color: #7b80a8;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo span, .logo:hover span { animation: none; }
+  }
+</style>
 </head>
 <body>
-    <div class="page">
-        <div class="carte">
-            <a class="logo" href="/">
-                <span class="logo-marque" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.96A6 6 0 0 1 18 9.5a4.2 4.2 0 0 1-.5 8.5H7z"/></svg>
-                </span>
-                YemoCloud
-            </a>
+  <main>
+    <div class="logo" role="img" aria-label="Yemoclood">
+      <span style="--i:0">Y</span><span style="--i:1">e</span><span style="--i:2">m</span><span style="--i:3">o</span><span style="--i:4">c</span><span style="--i:5">l</span><span style="--i:6">o</span><span style="--i:7">o</span><span style="--i:8">d</span>
+    </div>
 
-            <div class="pastille"><i></i> Akwaba !</div>
-            <h1>Connecte-toi à ton espace</h1>
-            <p class="te
+    <h1>Content de vous revoir</h1>
+    <p class="sous-titre">C
