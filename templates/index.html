@@ -3,45 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YemoCloud</title>
+    <title>YemoCloud : hébergement de fichiers lourds avec lien direct</title>
+    <meta name="description" content="YemoCloud héberge tes images et vidéos et te donne un lien direct pour chaque fichier. Tableau de bord, clé de projet et formules payantes.">
     <style>
         body {
             margin: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             font-family: Arial, sans-serif;
             background: #f5f3ff;
+            color: #1f1b2e;
+            line-height: 1.6;
         }
+        main {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 { color: #6d28d9; font-size: 28px; }
+        h2 { color: #7c3aed; margin-top: 32px; }
         .bouton {
+            display: inline-block;
             background: #7c3aed;
             color: white;
-            border: none;
-            padding: 18px 40px;
-            font-size: 20px;
+            padding: 16px 36px;
+            font-size: 18px;
             border-radius: 12px;
-            cursor: pointer;
+            text-decoration: none;
             transition: background 0.2s;
         }
-        .bouton:hover {
-            background: #6d28d9;
-        }
-        .message {
-            margin-top: 12px;
-            text-align: center;
-            color: #000000;
-            font-size: 14px;
-            font-weight: bold;
-            white-space: nowrap;
-        }
+        .bouton:hover { background: #6d28d9; }
     </style>
 </head>
 <body>
-    <a href="/connexion"><button class="bouton">Bienvenue sur YemoCloud</button></a>
-    <p class="message">
-        Bienvenue sur YemoCloud, une base de données pour héberger et gérer vos données en toute simplicité.
+<main>
+    <h1>YemoCloud, l'hébergement de fichiers lourds simple et rapide</h1>
+    <p>
+        YemoCloud est un service en ligne pour héberger tes images et
+        vidéos et les gérer en toute simplicité. Tu envoies un fichier,
+        tu reçois un lien direct à utiliser dans ton site ou ton application.
     </p>
+    <a class="bouton" href="/connexion">Commencer</a>
+
+    <h2>Ce que tu obtiens</h2>
+    <ul>
+        <li>Un lien direct pour chaque fichier</li>
+        <li>Un tableau de bord avec tous tes fichiers en grille</li>
+        <li>Une clé de projet pour connecter ton application web ou mobile</li>
+        <li>[Espace de stockage et taille maximale par fichier]</li>
+    </ul>
+
+    <h2>Comment ça marche</h2>
+    <ol>
+        <li>Crée ton compte.</li>
+        <li>Crée ton projet : tu reçois ta clé.</li>
+        <li>Envoie tes fichiers depuis le site ou ton application.</li>
+        <li>Copie le lien et utilise-le où tu veux.</li>
+    </ol>
+
+    <h2>Tarifs</h2>
+    <p>[Nom de la formule] : [prix] par [mois/an], [espace inclus].</p>
+
+    <h2>Questions fréquentes</h2>
+    <p><strong>Quels fichiers puis-je envoyer ?</strong><br>[Formats et taille maximale]</p>
+    <p><strong>Comment connecter mon application ?</strong><br>[Lien vers ton guide de configuration]</p>
+</main>
 </body>
 </html>
