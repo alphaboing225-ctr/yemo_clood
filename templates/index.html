@@ -6,205 +6,100 @@
     <title>YemoCloud : hébergement de fichiers lourds avec lien direct</title>
     <meta name="google-site-verification" content="1UnLrsBTMKb2T1Hra5b4PcA095IS83GYmiTMGZgIUqE" />
     <meta name="description" content="YemoCloud héberge tes images et vidéos et te donne un lien direct pour chaque fichier. Tableau de bord et clé de projet pour connecter ton application.">
+    <link rel="icon" href="/static/1793369079861.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="/static/1793369079861.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --fond: #f4f0ff;
-            --encre: #1d1233;
-            --violet: #5b21d6;
-            --violet-fonce: #4a18b3;
-            --jaune: #ffd23f;
-            --trait: #d9cff5;
+            --nuit: #140a2e;
+            --nuit-2: #22124d;
+            --violet: #6a2cf5;
+            --violet-clair: #a98bff;
+            --lilas: #efeaff;
+            --papier: #faf8ff;
+            --soleil: #ffc83d;
+            --menthe: #3ddc97;
+            --texte: #1b1238;
+            --doux: #5f5680;
+            --trait: #ddd3fb;
         }
         * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             margin: 0;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-            background: var(--fond);
-            color: var(--encre);
-            line-height: 1.6;
+            font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            background: var(--papier);
+            color: var(--texte);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
         }
-        .conteneur {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 22px;
+        h1, h2, h3, .logo {
+            font-family: "Bricolage Grotesque", "DM Sans", system-ui, sans-serif;
+        }
+        .conteneur { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--soleil); outline-offset: 3px; }
+
+        /* ---------- Haut de page sombre ---------- */
+        .haut {
+            background:
+                radial-gradient(60% 80% at 85% 0%, rgba(106,44,245,.55), transparent 70%),
+                radial-gradient(50% 60% at 0% 100%, rgba(255,200,61,.14), transparent 70%),
+                var(--nuit);
+            color: #fff;
+            border-radius: 0 0 36px 36px;
+            overflow: hidden;
         }
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 22px 0;
         }
         .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             font-weight: 800;
             font-size: 22px;
-            letter-spacing: -0.5px;
-            color: var(--violet);
+            letter-spacing: -.5px;
+            color: #fff;
             text-decoration: none;
         }
+        .logo-marque {
+            width: 34px; height: 34px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, var(--violet-clair), var(--violet));
+            display: grid; place-items: center;
+        }
+        .logo-marque svg { width: 20px; height: 20px; }
         .lien-connexion {
-            color: var(--encre);
-            font-weight: 600;
+            color: #fff;
+            font-weight: 700;
             text-decoration: none;
-            padding: 8px 14px;
-            border: 2px solid var(--encre);
-            border-radius: 10px;
+            padding: 9px 18px;
+            border: 1.5px solid rgba(255,255,255,.35);
+            border-radius: 999px;
+            transition: background .2s, color .2s;
         }
-        .lien-connexion:hover { background: var(--encre); color: #fff; }
+        .lien-connexion:hover { background: #fff; color: var(--nuit); }
 
         .hero {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 36px;
-            padding: 36px 0 56px;
+            gap: 44px;
+            padding: 34px 0 70px;
             align-items: center;
         }
-        h1 {
-            font-size: clamp(32px, 7vw, 54px);
-            line-height: 1.08;
-            letter-spacing: -1.5px;
-            font-weight: 800;
-            margin: 0 0 18px;
-        }
-        .intro {
-            font-size: 18px;
-            max-width: 46ch;
-            margin: 0 0 28px;
-        }
-        .bouton {
-            display: inline-block;
-            background: var(--violet);
-            color: #fff;
-            padding: 16px 34px;
-            font-size: 18px;
-            font-weight: 700;
-            border-radius: 12px;
-            text-decoration: none;
-        }
-        .bouton:hover { background: var(--violet-fonce); }
-        a:focus-visible { outline: 3px solid var(--jaune); outline-offset: 3px; }
-
-        .exemple { max-width: 400px; }
-        .fichier {
-            border: 2px dashed var(--violet);
-            border-radius: 14px;
-            padding: 16px 18px;
-            background: #fff;
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            font-weight: 600;
-            overflow-wrap: anywhere;
-        }
-        .fichier span:last-child { color: #6b5f86; font-weight: 500; white-space: nowrap; }
-        .fleche {
-            width: 2px;
-            height: 34px;
-            background: var(--violet);
-            margin: 0 0 0 28px;
-            position: relative;
-        }
-        .fleche::after {
-            content: "";
-            position: absolute;
-            bottom: -2px;
-            left: -6px;
-            border: 7px solid transparent;
-            border-top: 10px solid var(--violet);
-            border-bottom: 0;
-        }
-        .lien {
-            background: var(--violet);
-            color: #fff;
-            border-radius: 14px;
-            padding: 18px;
-            overflow-wrap: anywhere;
-            font-family: ui-monospace, Consolas, monospace;
+        .pastille {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.18);
             font-size: 14px;
-        }
-        .etiquette {
-            display: inline-block;
-            background: var(--jaune);
-            color: var(--encre);
-            font-family: system-ui, sans-serif;
-            font-weight: 700;
-            font-size: 13px;
-            padding: 3px 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        .legende { font-size: 13px; color: #6b5f86; margin: 10px 0 0; }
-
-        section { padding: 40px 0; border-top: 2px solid var(--trait); }
-        h2 { font-size: 26px; letter-spacing: -0.5px; margin: 0 0 18px; }
-        .avantages { list-style: none; padding: 0; margin: 0; max-width: 640px; }
-        .avantages li {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--trait);
-            font-size: 17px;
-        }
-        .avantages li:last-child { border-bottom: 0; }
-        ol { max-width: 640px; padding-left: 22px; margin: 0; font-size: 17px; }
-        ol li { padding: 6px 0 6px 6px; }
-        ol li::marker { color: var(--violet); font-weight: 800; }
-
-        footer { padding: 30px 0 40px; color: #6b5f86; font-size: 14px; border-top: 2px solid var(--trait); }
-
-        @media (min-width: 800px) {
-            .hero { grid-template-columns: 1.15fr 0.85fr; }
-        }
-    </style>
-</head>
-<body>
-<div class="conteneur">
-    <header>
-        <a class="logo" href="/">YemoCloud</a>
-        <a class="lien-connexion" href="/connexion">Connexion</a>
-    </header>
-
-    <main>
-        <div class="hero">
-            <div>
-                <h1>YemoCloud, l'hébergement de fichiers lourds simple et rapide</h1>
-                <p class="intro">
-                    YemoCloud est un service en ligne pour héberger tes images et
-                    vidéos et les gérer en toute simplicité. Tu envoies un fichier,
-                    tu reçois un lien direct à utiliser dans ton site ou ton application.
-                </p>
-                <a class="bouton" href="/connexion">Commencer</a>
-            </div>
-
-            <div class="exemple" aria-hidden="true">
-                <div class="fichier"><span>mariage-2026.mp4</span><span>48 Mo</span></div>
-                <div class="fleche"></div>
-                <div class="lien">
-                    <span class="etiquette">Lien direct</span><br>
-                    yemoclood.onrender.com/f/k7x2q
-                </div>
-                <p class="legende">Exemple de fichier et de lien obtenu</p>
-            </div>
-        </div>
-
-        <section>
-            <h2>Ce que tu obtiens</h2>
-            <ul class="avantages">
-                <li>Un lien direct pour chaque fichier</li>
-                <li>Un tableau de bord avec tous tes fichiers en grille</li>
-                <li>Une clé de projet pour connecter ton application web ou mobile</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Comment ça marche</h2>
-            <ol>
-                <li>Crée ton compte.</li>
-                <li>Crée ton projet : tu reçois ta clé.</li>
-                <li>Envoie tes fichiers depuis le site ou ton application.</li>
-                <li>Copie le lien et utilise-le où tu veux.</li>
-            </ol>
-        </section>
-    </main>
-
-    <footer>YemoCloud, hébergement de fichiers lourds</footer>
-</div>
-</body>
-</html>
+            font-weight: 500;
+            margin-bottom: 22
