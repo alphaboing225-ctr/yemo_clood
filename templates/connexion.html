@@ -4,87 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - YemoCloud</title>
+    <link rel="icon" href="/static/1793369079861.jpg" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --nuit: #140a2e;
+            --violet: #6a2cf5;
+            --violet-clair: #a98bff;
+            --soleil: #ffc83d;
+            --menthe: #3ddc97;
+            --texte: #1b1238;
+            --doux: #5f5680;
+            --trait: #ddd3fb;
+        }
+        * { box-sizing: border-box; }
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
-            background: #f5f3ff;
+            padding: 22px;
+            font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            color: var(--texte);
+            -webkit-font-smoothing: antialiased;
+            background:
+                radial-gradient(60% 55% at 85% 0%, rgba(106,44,245,.65), transparent 70%),
+                radial-gradient(50% 45% at 0% 100%, rgba(255,200,61,.18), transparent 70%),
+                var(--nuit);
         }
+        .page { width: 100%; max-width: 400px; }
         .carte {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 300px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            border-radius: 28px;
+            padding: 34px 28px 28px;
             text-align: center;
+            box-shadow: 0 40px 80px -30px rgba(0,0,0,.7);
         }
-        h2 {
-            margin-top: 0;
-            color: #7c3aed;
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -.5px;
+            color: var(--violet);
+            text-decoration: none;
+            margin-bottom: 26px;
         }
-        button {
+        .logo-marque {
+            width: 36px; height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--violet-clair), var(--violet));
+            display: grid; place-items: center;
+        }
+        .logo-marque svg { width: 21px; height: 21px; }
+        .pastille {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 13px;
+            border-radius: 999px;
+            background: #fff6dc;
+            color: #6b4e00;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+        .pastille i { width: 8px; height: 8px; border-radius: 50%; background: var(--soleil); }
+        h1 {
+            font-family: "Bricolage Grotesque", "DM Sans", sans-serif;
+            font-size: 30px;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            font-weight: 800;
+            margin: 0 0 10px;
+        }
+        .texte { color: var(--doux); font-size: 16px; margin: 0 0 26px; }
+
+        #btn-google {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background: white;
-            color: #000;
-            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 18px;
+            border: 1.5px solid var(--trait);
+            border-radius: 14px;
+            background: #fff;
+            color: var(--texte);
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
+            transition: transform .15s, box-shadow .15s, border-color .15s;
         }
-        button:hover {
-            background: #f3f4f6;
+        #btn-google:hover {
+            border-color: var(--violet);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px -12px rgba(106,44,245,.55);
         }
+        #btn-google:active { transform: translateY(0); }
+        #btn-google:disabled { opacity: .7; cursor: wait; transform: none; box-shadow: none; }
+        #btn-google svg { width: 22px; height: 22px; flex: none; }
+        #btn-google:focus-visible, .retour:focus-visible { outline: 3px solid var(--soleil); outline-offset: 3px; }
+
         #erreur {
-            color: red;
-            font-size: 13px;
+            min-height: 20px;
+            margin: 14px 0 0;
+            color: #c4162a;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .rassure {
+            margin: 22px 0 0;
+            padding-top: 18px;
+            border-top: 1.5px solid var(--trait);
+            font-size: 14px;
+            color: var(--doux);
+        }
+        .retour {
+            display: inline-block;
+            margin-top: 22px;
+            color: #d9d0f7;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .retour:hover { color: #fff; text-decoration: underline; }
+        .bas { text-align: center; }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
         }
     </style>
 </head>
 <body>
-    <div class="carte">
-        <h2>Connexion</h2>
-        <button id="btn-google">Continuer avec Google</button>
-        <p id="erreur"></p>
-    </div>
+    <div class="page">
+        <div class="carte">
+            <a class="logo" href="/">
+                <span class="logo-marque" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.96A6 6 0 0 1 18 9.5a4.2 4.2 0 0 1-.5 8.5H7z"/></svg>
+                </span>
+                YemoCloud
+            </a>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider }
-            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDWhw9oAtnzoWUIsDOZO1FR4Dm92KbhLYI",
-            authDomain: "boing--netgo.firebaseapp.com",
-            projectId: "boing--netgo",
-            storageBucket: "boing--netgo.firebasestorage.app",
-            messagingSenderId: "361557650826",
-            appId: "1:361557650826:web:00ae6d8fbe5a0c1f9a6c73"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const erreur = document.getElementById("erreur");
-
-        document.getElementById("btn-google").onclick = async () => {
-            try {
-                const resultat = await signInWithPopup(auth, new GoogleAuthProvider());
-                const token = await resultat.user.getIdToken();
-                const reponse = await fetch("/session", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ token })
-                });
-                if (reponse.ok) window.location.href = "/tableau-de-bord";
-                else erreur.textContent = "Connexion refusée par le serveur.";
-            } catch (e) {
-                erreur.textContent = e.message;
-            }
-        };
-    </script>
-</body>
-</html>
+            <div class="pastille"><i></i> Akwaba !</div>
+            <h1>Connecte-toi à ton espace</h1>
+            <p class="te
