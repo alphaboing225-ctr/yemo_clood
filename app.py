@@ -1,4 +1,5 @@
 import os
+import json
 import hashlib
 import secrets
 from dotenv import load_dotenv
@@ -29,8 +30,19 @@ cloudinary.config(
     secure=True,
 )
 
-CHEMIN_CLE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "firebase-cle.json")
-firebase_admin.initialize_app(credentials.Certificate(CHEMIN_CLE))
+# --- Initialisation sécurisée de Firebase (Support Render & Local) ---
+firebase_config_json = os.getenv("FIREBASE_CONFIG_JSON")
+
+if firebase_config_json:
+    # Si la variable d'environnement est présente (sur Render)
+    cred_dict = json.loads(firebase_config_json)
+    cred = credentials.Certificate(cred_dict)
+else:
+    # En local sur ton PC (si tu utilises encore un fichier physique firebase-cle.json)
+    chemin_cle = os.path.join(os.path.dirname(os.path.abspath(__file__)), "firebase-cle.json")
+    cred = credentials.Certificate(chemin_cle)
+
+firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
