@@ -26,14 +26,14 @@ app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_SECURE"] = os.getenv("FLASK_DEBUG") != "1"
 
-# CORS : sites autorisés à appeler l'API externe
-# Dans .env / Render : CORS_ORIGINS=https://mon-site.com,https://autre-site.com
-origines = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
+# API ouverte : n'importe quel site ou application peut appeler /api/v1/*.
+# La sécurité vient du nom du projet + de la clé, pas du domaine.
+# Les routes du tableau de bord (/api/televerser, /api/creer-projet) restent fermées.
 CORS(app, resources={r"/api/v1/*": {
-    "origins": origines,
+    "origins": "*",
     "methods": ["POST", "OPTIONS"],
     "allow_headers": ["Content-Type", "X-Cle-Projet"],
-}})
+}}, supports_credentials=False)
 
 # Limite le nombre de requêtes par adresse IP
 limiter = Limiter(get_remote_address, app=app, default_limits=[])
@@ -256,7 +256,8 @@ def televerser_externe():
     doc = docs[0]
     projet = doc.to_dict()
 
-    if not secrets.compare_digest(projet.get("nom", ""), nom_projet):
+    # .encode() : évite une erreur si le nom contient des accents
+    if not secrets.compare_digest(projet.get("nom", "").encode(), nom_projet.encode()):
         return echec
 
     corps, code = enregistrer_fichier(doc.id, projet, fichier)
