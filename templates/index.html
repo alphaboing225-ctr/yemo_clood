@@ -74,6 +74,15 @@
             display: grid; place-items: center;
         }
         .logo-marque svg { width: 20px; height: 20px; }
+        .nav { display: flex; align-items: center; gap: 6px; }
+        .lien-guide {
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 9px 14px;
+            border-radius: 999px;
+        }
+        .lien-guide:hover { background: rgba(255,255,255,.12); }
         .lien-connexion {
             color: #fff;
             font-weight: 700;
@@ -268,6 +277,255 @@
         .sous-titre { color: var(--doux); font-size: 18px; max-width: 52ch; margin: 0 0 36px; }
 
         .avantages { display: grid; gap: 18px; grid-template-columns: 1fr; }
+        .avantage {
+            border-radius: 24px;
+            padding: 28px;
+            background: #fff;
+            border: 1.5px solid var(--trait);
+        }
+        .avantage.grand {
+            background: linear-gradient(145deg, var(--violet), #4a18b3);
+            color: #fff;
+            border: 0;
+        }
+        .avantage.grand p { color: #e4dbff; }
+        .avantage.jaune { background: var(--soleil); border: 0; }
+        .avantage.jaune p { color: #4a3a05; }
+        .icone {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: grid; place-items: center;
+            background: var(--lilas);
+            margin-bottom: 18px;
+        }
+        .avantage.grand .icone { background: rgba(255,255,255,.18); }
+        .avantage.jaune .icone { background: rgba(20,10,46,.12); }
+        .icone svg { width: 24px; height: 24px; }
+        h3 { font-size: 22px; letter-spacing: -.4px; margin: 0 0 8px; font-weight: 700; }
+        .avantage p { margin: 0; color: var(--doux); font-size: 16px; }
+
+        .etapes { list-style: none; counter-reset: etape; padding: 0; margin: 0; display: grid; gap: 14px; max-width: 720px; }
+        .etapes li {
+            counter-increment: etape;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: #fff;
+            border: 1.5px solid var(--trait);
+            border-radius: 18px;
+            padding: 16px 20px;
+            font-size: 17px;
+            font-weight: 500;
+        }
+        .etapes li::before {
+            content: counter(etape);
+            flex: none;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: var(--violet);
+            color: #fff;
+            display: grid; place-items: center;
+            font-family: "Bricolage Grotesque", sans-serif;
+            font-weight: 800;
+        }
+
+        /* ---------- Guide de connexion ---------- */
+        #guide { scroll-margin-top: 16px; }
+        .guide-etape {
+            background: #fff;
+            border: 1.5px solid var(--trait);
+            border-radius: 24px;
+            padding: 26px;
+            margin-bottom: 18px;
+        }
+        .guide-etape h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .guide-num {
+            flex: none;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: var(--violet);
+            color: #fff;
+            display: grid; place-items: center;
+            font-size: 17px;
+            font-weight: 800;
+        }
+        .guide-etape p { margin: 0 0 12px; color: var(--doux); font-size: 16px; }
+        .guide-etape p:last-child { margin-bottom: 0; }
+        .guide-etape code.inline {
+            font-family: ui-monospace, Consolas, monospace;
+            font-size: 14px;
+            background: var(--lilas);
+            color: var(--violet);
+            padding: 2px 6px;
+            border-radius: 6px;
+            overflow-wrap: anywhere;
+        }
+        .code-bloc { position: relative; margin: 0 0 14px; }
+        .code-bloc pre {
+            margin: 0;
+            background: var(--nuit);
+            color: #efeaff;
+            border-radius: 16px;
+            padding: 18px 16px;
+            overflow-x: auto;
+            font-family: ui-monospace, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.55;
+            -webkit-overflow-scrolling: touch;
+        }
+        .code-bloc button {
+            position: absolute;
+            top: 8px; right: 8px;
+            background: var(--menthe);
+            color: var(--nuit);
+            border: 0;
+            border-radius: 8px;
+            font-family: "DM Sans", system-ui, sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .code-bloc.avec-bouton pre { padding-top: 40px; }
+        .table-defil { overflow-x: auto; margin: 0 0 14px; -webkit-overflow-scrolling: touch; }
+        .guide-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+            min-width: 420px;
+        }
+        .guide-table th {
+            background: var(--violet);
+            color: #fff;
+            text-align: left;
+            padding: 10px 12px;
+            font-weight: 700;
+        }
+        .guide-table th:first-child { border-radius: 12px 0 0 0; }
+        .guide-table th:last-child { border-radius: 0 12px 0 0; }
+        .guide-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--trait);
+            vertical-align: top;
+            color: var(--texte);
+        }
+        .guide-table td:first-child { font-weight: 700; white-space: nowrap; }
+        .avertissement {
+            background: #fff4d6;
+            border: 1.5px solid var(--soleil);
+            border-radius: 18px;
+            padding: 16px 18px;
+            color: #4a3a05;
+            font-size: 15px;
+        }
+        .avertissement strong { color: var(--nuit); }
+
+        .final {
+            margin: 80px 0 0;
+            background: var(--nuit);
+            color: #fff;
+            border-radius: 32px;
+            padding: 46px 28px;
+            text-align: center;
+            background-image: radial-gradient(60% 90% at 50% 120%, rgba(106,44,245,.7), transparent 70%);
+        }
+        .final h2 { margin-bottom: 10px; }
+        .final p { color: #cfc4f3; margin: 0 auto 26px; max-width: 42ch; }
+
+        footer {
+            padding: 36px 0 44px;
+            color: var(--doux);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        @media (min-width: 820px) {
+            .hero { grid-template-columns: 1.1fr .9fr; padding-bottom: 90px; }
+            .avantages { grid-template-columns: 1.3fr 1fr; }
+            .avantage.grand { grid-row: span 2; display: flex; flex-direction: column; justify-content: flex-end; min-height: 320px; }
+            .avantage.grand h3 { font-size: 30px; }
+            .final { padding: 64px 40px; }
+            .guide-etape { padding: 32px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body>
+<div class="haut">
+    <div class="conteneur">
+        <header>
+            <a class="logo" href="/">
+                <span class="logo-marque" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.96A6 6 0 0 1 18 9.5a4.2 4.2 0 0 1-.5 8.5H7z"/></svg>
+                </span>
+                YemoCloud
+            </a>
+            <nav class="nav">
+                <a class="lien-guide" href="#guide">Guide</a>
+                <a class="lien-connexion" href="/connexion">Connexion</a>
+            </nav>
+        </header>
+
+        <div class="hero">
+            <div>
+                <div class="pastille"><i></i> Akwaba ! Bienvenue sur YemoCloud</div>
+                <h1>Envoie ton fichier, reçois un lien direct.</h1>
+                <p class="intro">
+                    YemoCloud héberge tes images et tes vidéos et les range dans un
+                    tableau de bord. Colle ensuite le lien dans ton site ou ton application.
+                </p>
+                <div class="actions">
+                    <a class="bouton" href="/connexion">Commencer</a>
+                    <span class="note">Ton compte est prêt en une minute.</span>
+                </div>
+            </div>
+
+            <div class="demo" aria-hidden="true">
+                <div class="fichier">
+                    <div class="pub">
+                        <div class="pub-marque">G</div>
+                        <div class="pub-nom">Gonhi</div>
+                        <div class="pub-texte">Le réseau social pour retrouver tes amis et partager tes moments.</div>
+                        <div class="pub-bas">
+                            <span class="pub-bouton">Rejoindre Gonhi</span>
+                            <span class="pub-avatars"><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+                    <div class="fichier-info"><span>pub-gonhi.jpg</span><span>2,4 Mo</span></div>
+                </div>
+                <div class="relie">Lien créé</div>
+                <div class="lien">
+                    <span>yemoclood.onrender.com/f/k7x2q</span>
+                    <span class="copie">Copier</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="conteneur">
+    <main>
+        <section>
+            <h2>Ce que tu obtiens</h2>
+            <p class="sous-titre">Tout ce qu'il faut pour héberger tes fichiers et les utiliser partout.</p>
+            <div class="avantages">
+                <div class="avantage grand">
+                    <div class="icone">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+                    </div>
+                    <h3>Un lien direct pour chaque fichier</h3>
+                    <p>Tu envoies une image ou une vidéo, tu copies son lien et tu l'utilises dans ta page, ton application ou tes messages.</p>
+                </div>
+                <div class="avantage">
+                    <div cla-template-columns: 1fr; }
         .avantage {
             border-radius: 24px;
             padding: 28px;
