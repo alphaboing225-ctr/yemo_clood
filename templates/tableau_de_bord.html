@@ -106,12 +106,6 @@
             color: #b91c1c;
             font-size: 12px;
         }
-        .titre-projet {
-            margin-bottom: 12px;
-            font-size: 14px;
-            font-weight: bold;
-            word-break: break-word;
-        }
         .email {
             color: #333;
             word-break: break-all;
@@ -313,7 +307,11 @@
             <div class="menu" id="menu">
                 {% if projet %}
                     {% if cle %}
-                    <div class="etiquette">Clé du projet</div>
+                    <div class="etiquette">Yemoclood_name</div>
+                    <div class="ligne-cle">
+                        <input type="text" id="nom-projet" readonly value="{{ projet.nom }}">
+                    </div>
+                    <div class="etiquette">Yemoclood_keys</div>
                     <div class="ligne-cle">
                         <input type="text" id="cle" readonly value="{{ cle }}">
                         <button id="btn-copier">Copier</button>
@@ -323,8 +321,6 @@
                         Clé indisponible pour ce projet. Supprime-le dans Firestore et recrée-le.
                     </div>
                     {% endif %}
-                    <div class="etiquette">Nom du projet</div>
-                    <div class="titre-projet">{{ projet.nom }}</div>
                 {% endif %}
                 <div class="email">{{ email }}</div>
                 <a href="/deconnexion">Se déconnecter</a>
@@ -389,16 +385,22 @@
         });
 
         const champCle = document.getElementById("cle");
+        const champNom = document.getElementById("nom-projet");
         const btnCopier = document.getElementById("btn-copier");
 
-        if (champCle && btnCopier) {
+        if (champCle && champNom && btnCopier) {
             champCle.addEventListener("click", function () {
                 champCle.select();
             });
+            champNom.addEventListener("click", function () {
+                champNom.select();
+            });
 
+            // Copie les deux lignes d'un coup
             btnCopier.addEventListener("click", async function () {
+                const texte = "Yemoclood_name: " + champNom.value + "\nYemoclood_keys: " + champCle.value;
                 try {
-                    await navigator.clipboard.writeText(champCle.value);
+                    await navigator.clipboard.writeText(texte);
                 } catch (e) {
                     champCle.select();
                     document.execCommand("copy");
